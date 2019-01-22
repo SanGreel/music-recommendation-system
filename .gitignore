@@ -1,8 +1,11 @@
-data/audio_tmp/*
+data/audio/*
+data/db_a/*
+
 ### JupyterNotebook ###
 .ipynb_checkpoints
 */.ipynb_checkpoints/*
 
+.idea/*
 # Remove previous ipynb_checkpoints
 #   git rm -r .ipynb_checkpoints/
 #
