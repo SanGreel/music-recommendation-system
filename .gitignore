@@ -1,5 +1,7 @@
 data/audio/*
 data/db_a/*
+data/db_20/*
+
 
 ### JupyterNotebook ###
 .ipynb_checkpoints
