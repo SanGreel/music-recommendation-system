@@ -1,7 +1,7 @@
 data/audio/*
 data/db_a/*
 data/db_20/*
-
+voice_and_accompaniment_decomposition/features_final/*
 
 ### JupyterNotebook ###
 .ipynb_checkpoints
