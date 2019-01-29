@@ -14,12 +14,12 @@ If you are interested in some introduction to the music domain, we recommend You
 
 ### How to reproduce?
 #### Frequency decomposition
-Just run files from frequency decomposition folder:
-**0_create_collection.ipynb**
-This script creates audio files database(collection) from the content of the 'data/audio' folder.
+Just run files from frequency decomposition folder:<br/><br/>
+**0_create_collection.ipynb**<br/>
+This script creates audio files database(collection) from the content of the 'data/audio' folder.<br/>
 
-**1_audio_representation.ipynb**
+**1_audio_representation.ipynb**<br/>
 Here we represent mp3 audio file as vectors for different frequencies. In our case, we processed only 20 seconds of the track.
 
-**2_audio_recommendation.ipynb**
+**2_audio_recommendation.ipynb**<br/>
 In this file, we calculate correlations between frequencies of the tracks and recommends the most relevant.
