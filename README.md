@@ -11,7 +11,7 @@ Timbre and rhythm decomposition based approach shows impressive results. We thin
 ## How to start?
 If you are interested in some introduction to the music domain, we recommend You to run [audio_track_exploration.ipynb](https://github.com/SanGreel/music-recommendation-system/blob/master/audio_track_exploration.ipynb). In this file we describe some audio track characteristics and a few ways to decompose the audio track.
 
-<br/>
+
 ## How to reproduce? <br/>
 ### Frequency decomposition
 Just run files from frequency decomposition folder:<br/><br/>
