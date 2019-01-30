@@ -68,8 +68,8 @@ def wav_read(filename,normalize=True,verbose=True,auto_resample=True):
 
     if auto_resample and samplerate != 11025 and samplerate != 22050 and samplerate != 44100:
         #print original file info
-        if verbose:
-            print(samplerate, "Hz,", wavedata.shape[1], "channel(s),", wavedata.shape[0], "samples")
+#         if verbose:
+#             print(samplerate, "Hz,", wavedata.shape[1], "channel(s),", wavedata.shape[0], "samples")
 
         to_samplerate = 22050 if samplerate < 22050 else 44100
         filename2 = resample(filename, to_samplerate, normalize=True, verbose=verbose)
@@ -99,8 +99,8 @@ def resample(filename, to_samplerate=44100, normalize=True, verbose=True):
 
     try:
         cmd = ['ffmpeg','-v','1','-y','-i', filename, '-ar', str(to_samplerate), tempfile]
-        if verbose:
-            print("Resampling to", to_samplerate, "...")
+#         if verbose:
+#             print("Resampling to", to_samplerate, "...")
             #print " ".join(cmd)
 
         return_code = subprocess.call(cmd)  # subprocess.call takes a list of command + arguments
@@ -194,7 +194,7 @@ def decode(in_filename, out_filename=None, verbose=True, no_extension_check=Fals
 
                 if return_code != 0:
                     raise DecoderException("Problem appeared during executing decoder. Return_code: " + str(return_code), command=cmd)
-                if verbose: print('Decoded', ext, 'with:', " ".join(cmd))
+#                 if verbose: print('Decoded', ext, 'with:', " ".join(cmd))
                 success = True
 
             except OSError as e:
@@ -251,7 +251,7 @@ def decode_video(in_filename, out_filename=None, verbose=False, no_extension_che
 
         if return_code != 0:
             raise DecoderException("Problem appeared during executing decoder. Return_code: " + str(return_code), command=cmd)
-        if verbose: print('Decoded', ext, 'with:', " ".join(cmd))
+#         if verbose: print('Decoded', ext, 'with:', " ".join(cmd))
         success = True
 
     except OSError as e:
@@ -278,7 +278,7 @@ def decode_to_memory(in_filename, verbose=True):
     cmd1_types = ('.mp3','.aif','.aiff','.m4a')
 
     ext = ''
-    if verbose: print('Decoding', ext, 'with:', " ".join(cmd1))
+#     if verbose: print('Decoding', ext, 'with:', " ".join(cmd1))
 
     import numpy as np
     decoded_wav = subprocess.check_output(cmd1)
@@ -445,5 +445,5 @@ if __name__ == '__main__':
     #
     # print "EQUAL" if wavedata == wavedata2 else "NOT EQUAL"
 
-    print("Successfully read audio file:")
-    print(samplerate, "Hz,", samplewidth*8, "bit,", wavedata.shape[1], "channels,", wavedata.shape[0], "samples")
+#     print("Successfully read audio file:")
+#     print(samplerate, "Hz,", samplewidth*8, "bit,", wavedata.shape[1], "channels,", wavedata.shape[0], "samples")

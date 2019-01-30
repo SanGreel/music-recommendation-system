@@ -823,7 +823,7 @@ if __name__ == '__main__':
     # process file given on command line or default song (included)
     if len(sys.argv) > 1:
         if sys.argv[1] == '-test': # RUN DOCSTRING SELF TEST
-            print("Doing self test. If nothing is printed, it is ok.")
+#             print("Doing self test. If nothing is printed, it is ok.")
             import doctest
             doctest.run_docstring_examples(rp_extract, globals()) #, verbose=True)
             exit()   # Note: no output means that everything went fine
@@ -861,18 +861,18 @@ if __name__ == '__main__':
                           mod_ampl_limit=mod_ampl_limit)
 
         # feat is a dict containing arrays for different feature sets
-        print("Successfully extracted features:" , feat.keys())
+        #print("Successfully extracted features:" , feat.keys())
 
     except ValueError as e:
-        print(e)
+        #print(e)
         exit()
 
     # example print of first extracted feature vector
     keys = feat.keys()
     k = keys[0]
 
-    print(k.upper, " feature vector:")
-    print(feat[k])
+    #print(k.upper, " feature vector:")
+    #print(feat[k])
 
     # EXAMPLE on how to plot the features
     do_plots = False
