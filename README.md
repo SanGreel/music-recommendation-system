@@ -13,6 +13,7 @@ If you are interested in some introduction to the music domain, we recommend You
 
 
 ### How to reproduce?
+
 #### Frequency decomposition
 Just run files from frequency decomposition folder:<br/><br/>
 **0_create_collection.ipynb**<br/>
@@ -23,3 +24,6 @@ Here we represent mp3 audio file as vectors for different frequencies. In our ca
 
 **2_audio_recommendation.ipynb**<br/>
 In this file, we calculate correlations between frequencies of the tracks and recommends the most relevant.
+
+#### Timbre and rhythm decomposition
+Is under active refactoring.
