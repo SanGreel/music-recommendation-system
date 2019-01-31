@@ -2,6 +2,8 @@ data/audio/*
 data/20_sec_embed/*
 timbre_and_rhythm_features_decomposition/features_final/*
 
+!data/audio/
+!data/audio/other/
 !data/audio/other/morricone_30s.mp3
 
 ### JupyterNotebook ###
