@@ -120,7 +120,7 @@ def recommendation_for_new_track(tracks_path):
     tp = track_preprocessing(tracks_path)
     d = {}
     for file in os.listdir('features_final/'):
-        d[file] = pd.read_csv('features_final/'+file,header=None)[0].values
+        d[file] = pd.read_csv('features_final/'+file,header=None, engine='python')[0].values
     dist = pd.DataFrame(columns=['dist'],index=d.keys())
     for col in d.keys():
         dist.loc[col,'dist'] = scipy.spatial.distance.cosine(d[col],tp)
@@ -146,4 +146,12 @@ def add_track_in_base(track_path):
 
 
 #recommendation_for_new_track('../audio/electro/01-max_cooper_tom_hodge-symmetry.mp3')
+
+def create_database_from_foulder(audio_foulder_path):
+    tracks = os.listdir(audio_foulder_path)
+    for track in tracks:
+        if track[-4:].lower()=='.mp3':
+            tmp = track_preprocessing(audio_foulder_path+track)
+            pd.DataFrame(tmp).to_csv('features_final/'+track[:-4]+'.csv',header=None,index=None)
+        
 
