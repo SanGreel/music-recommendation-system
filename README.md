@@ -25,4 +25,9 @@ Here we represent mp3 audio file as vectors for different frequencies. In our ca
 In this file, we calculate correlations between frequencies of the tracks and recommends the most relevant.
 <br/><br/>
 ### Timbre and rhythm decomposition
-Is under refactoring.
+Just run the file with instruction inside:
+timbre_and_rhythm_features_decomposition/recommendation_system_usage.ipynb
+
+## Links
+We used some code from Music Information Retrieval Group -  
+https://github.com/tuwien-musicir/rp_extract
