@@ -12,9 +12,9 @@ import uuid
 # from scipy.io import wavfile
 # scipy.io.wavfile does not support 24 bit Wav files
 # therefore we switch to wavio by Warren Weckesser - https://github.com/WarrenWeckesser/wavio - BSD 3-Clause License
-import wavio
+from .wavio import *
 
-
+#import wavio
 
 class DecoderException(Exception):
     
@@ -64,7 +64,7 @@ def wav_read(filename,normalize=True,verbose=True,auto_resample=True):
     if not os.path.exists(filename):
         raise NameError("File does not exist: " + filename)
 
-    samplerate, samplewidth, wavedata = wavio.readwav(filename)
+    samplerate, samplewidth, wavedata = readwav(filename)
 
     if auto_resample and samplerate != 11025 and samplerate != 22050 and samplerate != 44100:
         #print original file info
@@ -73,7 +73,7 @@ def wav_read(filename,normalize=True,verbose=True,auto_resample=True):
 
         to_samplerate = 22050 if samplerate < 22050 else 44100
         filename2 = resample(filename, to_samplerate, normalize=True, verbose=verbose)
-        samplerate, samplewidth, wavedata = wavio.readwav(filename2)
+        samplerate, samplewidth, wavedata = readwav(filename2)
         os.remove(filename2) # delete temp file
 
     if (normalize):

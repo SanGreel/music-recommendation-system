@@ -1,24 +1,19 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[8]:
-
-
 get_ipython().run_line_magic('pylab', 'inline')
 import warnings
 warnings.filterwarnings('ignore')
 import numpy as np
 import matplotlib.pyplot as plt
-from audiofile_read import *  
-from rp_extract import rp_extract
-#from rp_plot import *  
+from .audiofile_read import *
+from .rp_extract import rp_extract
+#from rp_plot import *
 import librosa
 import os
 import pandas as pd
 import scipy
-
-
-# In[9]:
+import glob
 
 
 def features_extraction_accompaniment(track_path):
@@ -47,8 +42,6 @@ def features_extraction_accompaniment(track_path):
     return res
 
 
-# In[10]:
-
 
 def features_extraction_voice(track_path):
 #     mfccs = librosa.feature.mfcc(wavedata, sr=sr,n_mfcc=26)
@@ -62,47 +55,33 @@ def features_extraction_voice(track_path):
         mfccs.extend(np.median(mfccs_tmp,axis=1)[:12])
         deltas.extend(np.median(mfccs_tmp,axis=1)[:12])
     return mfccs + deltas
-    
-
-
-# In[11]:
 
 
 def track_preprocessing(track_path):
     return features_extraction_accompaniment(track_path) + features_extraction_voice(track_path)
 
 
-# In[12]:
-
-
-def create_tracks_features_space(audio_foulder_path):
-    genres = os.listdir('../audio/')
+def create_tracks_features_space(features_data_folder, audio_folder_path):
+    genres = os.listdir(audio_folder_path+'/')
     for genre in genres:
-        tracks = os.listdir('../audio/'+i+'/')
+        tracks = os.listdir(audio_folder_path+'/'+i+'/')
         for track in tracks:
-            tmp = track_preprocessing('../audio/'+genre+'/'+track)
-            pd.DataFrame(tmp).to_csv('features_final/'+track[:-4]+'.csv',header=None,index=None)
-        
+            tmp = track_preprocessing(audio_folder_path+'/'+genre+'/'+track)
+            pd.DataFrame(tmp).to_csv(features_data_folder+'/'+track[:-4]+'.csv', header=None, index=None)
 
 
-# In[13]:
-
-
-def calculate_distances():
+def calculate_distances(features_data_folder):
     d = {}
     import os
     del os
     import os
-    for file in os.listdir('features_final/'):
-        d[file] = pd.read_csv('features_final/'+file,header=None, engine='python')[0].values
+    for file in os.listdir(features_data_folder+'/'):
+        d[file] = pd.read_csv(features_data_folder+'/'+file,header=None, engine='python')[0].values
     distances = pd.DataFrame(columns=d.keys(),index=d.keys())
     for basic_track in d:
         for compared_track in d:
             distances.loc[basic_track,compared_track] = scipy.spatial.distance.cosine(d[basic_track],d[compared_track])
     distances.to_excel('tracks_similarity_matrix.xlsx')
-
-
-# In[14]:
 
 
 def formulate_recommendations():
@@ -113,27 +92,22 @@ def formulate_recommendations():
     pd.DataFrame(recommendations).to_excel('recommendations_for_tracks.xlsx',index=None)
 
 
-# In[15]:
-
-
-def recommendation_for_new_track(tracks_path):
+def recommendation_for_new_track(tracks_path, features_data_folder):
     tp = track_preprocessing(tracks_path)
     d = {}
-    for file in os.listdir('features_final/'):
-        d[file] = pd.read_csv('features_final/'+file,header=None, engine='python')[0].values
-    dist = pd.DataFrame(columns=['dist'],index=d.keys())
+    for file in os.listdir(features_data_folder+'/'):
+        d[file] = pd.read_csv(features_data_folder+'/'+file,header=None, engine='c')[0].values
+    dist = pd.DataFrame(columns=['dist'], index=d.keys())
+
     for col in d.keys():
         dist.loc[col,'dist'] = scipy.spatial.distance.cosine(d[col],tp)
     return dist['dist'].sort_values()[:20].index
 
 
-# In[17]:
-
-
-def add_track_in_base(track_path):
+def add_track_in_base(track_path, features_data_folder):
     tp = track_preprocessing(track_path)
-    if track_path.split('/')[-1][:-4]+'.csv' not in os.listdir('features_final/'):
-        pd.DataFrame(tp).to_csv('features_final/'+track_path.split('/')[-1][:-4]+'.csv',header=None,index=None)
+    if track_path.split('/')[-1][:-4]+'.csv' not in os.listdir(features_data_folder+'/'):
+        pd.DataFrame(tp).to_csv(features_data_folder+'/'+track_path.split('/')[-1][:-4]+'.csv',header=None,index=None)
         calculate_distances()
         formulate_recommendations()
         print('added')
@@ -141,17 +115,13 @@ def add_track_in_base(track_path):
         print('already in db')
 
 
-
-# In[16]:
-
-
-#recommendation_for_new_track('../audio/electro/01-max_cooper_tom_hodge-symmetry.mp3')
-
-def create_database_from_foulder(audio_foulder_path):
-    tracks = os.listdir(audio_foulder_path)
+def create_database_from_folder(audio_folder_path, features_data_folder):
+    #tracks = os.listdir(audio_folder_path)
+    tracks = glob.glob(audio_folder_path + '/**/*.mp3', recursive=True)
+    #print(tracks)
     for track in tracks:
         if track[-4:].lower()=='.mp3':
-            tmp = track_preprocessing(audio_foulder_path+track)
-            pd.DataFrame(tmp).to_csv('features_final/'+track[:-4]+'.csv',header=None,index=None)
-        
-
+            tmp = track_preprocessing(track)
+            track_name_data = track.split("/")
+            track_name_data = track_name_data[::-1]
+            pd.DataFrame(tmp).to_csv(features_data_folder+'/'+track_name_data[0][:-4]+'.csv', header=None, index=None)
