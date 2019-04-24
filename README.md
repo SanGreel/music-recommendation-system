@@ -29,5 +29,4 @@ Just run the file with instruction inside:
 timbre_and_rhythm_features_decomposition/recommendation_system_usage.ipynb
 
 ## Links
-We used some code from Music Information Retrieval Group -  
-https://github.com/tuwien-musicir/rp_extract
+We used some code from Music Information Retrieval Group - https://github.com/tuwien-musicir/rp_extract
